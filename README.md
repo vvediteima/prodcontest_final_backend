@@ -160,18 +160,6 @@ src/
 
 Ниже приведён краткий отчёт о покрытии тестами и основных сценариях тестирования.
 
-## Ссылки
-- **Описание архитектуры** `architecture.md` в корне.
-- **Креды на пользователей** `credentials.md` в корне.
-- **Ссылка на тесты:** [gitlab.prodcontest.ru/team-33/backend/-/tree/master/src/Tests](https://gitlab.prodcontest.ru/team-33/backend/-/tree/master/src/Tests)  
-- **Отчёт о покрытии тестами:** [gitlab.prodcontest.ru/team-33/docs/-/raw/master/imgs/photo_2025-03-03_21-42-34.jpg](https://gitlab.prodcontest.ru/team-33/docs/-/raw/master/imgs/photo_2025-03-03_21-42-34.jpg)  
-- **Swagger:** [prod-team-33-pafku5n2.final.prodcontest.ru/api/docs](https://prod-team-33-pafku5n2.final.prodcontest.ru/api/docs)
-- **Backend Repository** [https://gitlab.prodcontest.ru/team-33/backend](https://gitlab.prodcontest.ru/team-33/backend)
-- **Frontend Repository** [https://gitlab.prodcontest.ru/team-33/frontend](https://gitlab.prodcontest.ru/team-33/frontend)
-- **Database Repository** [https://gitlab.prodcontest.ru/team-33/database](https://gitlab.prodcontest.ru/team-33/database)
-
-*(Внимание: скриншот результатов тестирования не был прикреплён.)*
-
 ---
 
 ## Отчёт по покрытию тестами
