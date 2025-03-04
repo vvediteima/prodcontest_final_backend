@@ -1,0 +1,76 @@
+2025-03-02 11:52:25,631 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-02 11:52:25,632 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-02 11:53:04,027 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-02 11:53:04,027 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-02 11:53:10,783 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:10] "GET /docs/ HTTP/1.1" 200 -
+2025-03-02 11:53:10,923 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:10] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-03-02 11:53:10,924 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:10] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-03-02 11:53:10,925 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:10] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-03-02 11:53:10,926 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:10] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-03-02 11:53:11,147 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:11] "GET /flasgger_static/swagger-ui.css.map HTTP/1.1" 200 -
+2025-03-02 11:53:11,413 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:11] "GET /flasgger_static/swagger-ui-bundle.js.map HTTP/1.1" 200 -
+2025-03-02 11:53:11,487 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:11] "GET /flasgger_static/swagger-ui-standalone-preset.js.map HTTP/1.1" 200 -
+2025-03-02 11:53:11,515 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:11] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 11:53:11,557 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:11] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-03-02 11:53:11,616 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:53:11] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 11:59:06,694 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-02 11:59:06,694 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-02 11:59:07,672 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:07] "GET /docs/ HTTP/1.1" 200 -
+2025-03-02 11:59:07,812 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:07] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-03-02 11:59:07,815 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:07] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-03-02 11:59:07,817 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:07] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-03-02 11:59:07,818 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:07] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-03-02 11:59:08,008 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:08] "[36mGET /flasgger_static/swagger-ui.css.map HTTP/1.1[0m" 304 -
+2025-03-02 11:59:08,261 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:08] "[36mGET /flasgger_static/swagger-ui-bundle.js.map HTTP/1.1[0m" 304 -
+2025-03-02 11:59:08,328 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:08] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js.map HTTP/1.1[0m" 304 -
+2025-03-02 11:59:08,357 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:08] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 11:59:08,441 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:08] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-03-02 11:59:08,444 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:08] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 11:59:41,204 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-02 11:59:41,204 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-02 11:59:42,968 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:42] "GET /docs/ HTTP/1.1" 200 -
+2025-03-02 11:59:43,086 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:43] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-03-02 11:59:43,090 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:43] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-03-02 11:59:43,091 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:43] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-03-02 11:59:43,092 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:43] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-03-02 11:59:43,376 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:43] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 11:59:43,405 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:43] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-03-02 11:59:43,426 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 11:59:43] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 12:00:07,644 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-02 12:00:07,644 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-02 12:00:07,759 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "GET /docs/ HTTP/1.1" 200 -
+2025-03-02 12:00:07,883 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-03-02 12:00:07,885 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-03-02 12:00:07,887 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-03-02 12:00:07,888 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-03-02 12:00:07,963 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 12:00:07,977 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-03-02 12:00:07,981 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:00:07] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 12:13:14,449 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "GET /docs/ HTTP/1.1" 200 -
+2025-03-02 12:13:14,469 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-03-02 12:13:14,469 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-03-02 12:13:14,470 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-03-02 12:13:14,471 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-03-02 12:13:14,753 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 12:13:14,770 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-03-02 12:13:14,776 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:14] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 12:13:20,185 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-03-02 12:13:20,185 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-03-02 12:13:22,894 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:22] "GET /docs/ HTTP/1.1" 200 -
+2025-03-02 12:13:22,992 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:22] "[36mGET /flasgger_static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+2025-03-02 12:13:22,992 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:22] "[36mGET /flasgger_static/swagger-ui.css HTTP/1.1[0m" 304 -
+2025-03-02 12:13:22,994 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:22] "[36mGET /flasgger_static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+2025-03-02 12:13:22,995 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:22] "[36mGET /flasgger_static/lib/jquery.min.js HTTP/1.1[0m" 304 -
+2025-03-02 12:13:23,071 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:23] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 12:13:23,084 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:23] "GET /apispec_1.json HTTP/1.1" 200 -
+2025-03-02 12:13:23,093 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:23] "[36mGET /flasgger_static/favicon-32x32.png HTTP/1.1[0m" 304 -
+2025-03-02 12:13:30,772 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:30] "[33mGET /api/tags HTTP/1.1[0m" 404 -
+2025-03-02 12:13:47,678 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:13:47] "[32mGET /tags HTTP/1.1[0m" 308 -
+2025-03-02 12:14:16,076 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:14:16] "[32mGET /tags HTTP/1.1[0m" 308 -
+2025-03-02 12:14:16,077 - werkzeug - INFO - 127.0.0.1 - - [02/Mar/2025 12:14:16] "GET /tags/ HTTP/1.1" 200 -

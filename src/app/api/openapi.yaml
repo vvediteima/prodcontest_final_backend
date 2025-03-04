@@ -1,0 +1,1548 @@
+swagger: "2.0"
+info:
+  title: "WorkUP API"
+  description: "API Documentation"
+  version: "2.0.0"
+host: "prod-team-33-pafku5n2.final.prodcontest.ru"
+basePath: "/api"
+schemes:
+  - "https"
+  - "http"
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+    description: "Введите 'Bearer ' перед вашим токеном, например: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'"
+paths:
+  /auth/reg/:
+    post:
+      tags:
+        - auth
+      summary: "Регистрация пользователя"
+      description: "Эндпоинт для регистрации нового пользователя."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Объект пользователя для регистрации. Обязательные поля: name, surname, password, login; опционально: tags, description, job, company."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+                example: "Иван"
+              surname:
+                type: "string"
+                example: "Иванов"
+              password:
+                type: "string"
+                example: "Passw0rd!"
+              login:
+                type: "string"
+                example: "ivanivanov"
+              tags:
+                type: "array"
+                items:
+                  type: "string"
+                example: ["developer", "mentor"]
+              description:
+                type: "string"
+                example: "Новый пользователь платформы WorkUP"
+              job:
+                type: "string"
+                example: "Разработчик"
+              company:
+                type: "string"
+                example: "ООО Рога и Копыта"
+            required:
+              - name
+              - surname
+              - password
+              - login
+      responses:
+        200:
+          description: "Пользователь успешно зарегистрирован. Возвращается JWT-токен."
+          schema:
+            $ref: "#/definitions/TokenResponse"
+        400:
+          description: "Ошибка валидации входных данных"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "array"
+                items:
+                  type: "string"
+                example: ["Поле login обязательно"]
+        409:
+          description: "Пользователь с таким логином уже существует"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Пользователь с данным логином уже зарегистрирован"
+  /auth/login/:
+    post:
+      tags:
+        - auth
+      summary: "Аутентификация пользователя"
+      description: "Эндпоинт для получения JWT-токена по логину и паролю."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Учетные данные пользователя для аутентификации"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              login:
+                type: "string"
+                example: "ivanivanov"
+              password:
+                type: "string"
+                example: "Passw0rd!"
+            required:
+              - login
+              - password
+      responses:
+        200:
+          description: "JWT-токен успешно выдан"
+          schema:
+            type: "object"
+            properties:
+              token:
+                type: "string"
+                example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        401:
+          description: "Неверные учетные данные"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Неверный логин или пароль"
+  /auth/:
+    patch:
+      tags:
+        - auth
+      summary: "Обновление информации о пользователе"
+      description: "Эндпоинт для обновления информации о пользователе. Все поля являются необязательными. Пользователь обновляет данные на основе JWT-токена."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Объект с обновляемыми данными пользователя. Допустимые поля: name, surname, password, description, job, company."
+          required: false
+          schema:
+            type: "object"
+            properties:
+              name:
+                type: "string"
+                example: "Иван"
+              surname:
+                type: "string"
+                example: "Иванов"
+              password:
+                type: "string"
+                example: "Passw0rd!"
+              description:
+                type: "string"
+                example: "Обновлённое описание пользователя"
+              job:
+                type: "string"
+                example: "Разработчик"
+              company:
+                type: "string"
+                example: "ООО Рога и Копыта"
+      responses:
+        200:
+          description: "Пользователь успешно обновлён"
+          schema:
+            $ref: "#/definitions/StatusResponse"
+        401:
+          description: "Пользователь не найден или ошибка авторизации"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Ошибка авторизации: пользователь не найден"
+  /admin/stats/:
+    get:
+      tags:
+        - admin
+      summary: "Получение статистики"
+      description: >
+        Эндпоинт для получения статистических данных:
+          - Общее количество пользователей.
+          - Общее количество вопросов.
+          - Среднее количество вопросов на пользователя.
+          - Максимальное и минимальное количество вопросов у одного пользователя.
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Статистика успешно получена"
+          schema:
+            type: "object"
+            properties:
+              total_users:
+                type: "integer"
+                example: 1500
+              total_questions:
+                type: "integer"
+                example: 4500
+              avg_questions_per_user:
+                type: "number"
+                format: "float"
+                example: 3.0
+              max_questions_by_user:
+                type: "integer"
+                example: 25
+              min_questions_by_user:
+                type: "integer"
+                example: 0
+        500:
+          description: "Ошибка сервера"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Внутренняя ошибка сервера"
+  /admin/users/:
+    get:
+      tags:
+        - admin
+      summary: "Получение всех пользователей"
+      description: "Эндпоинт для получения списка всех пользователей."
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Список пользователей"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                  example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+                name:
+                  type: "string"
+                  example: "Иван"
+                surname:
+                  type: "string"
+                  example: "Иванов"
+                login:
+                  type: "string"
+                  example: "ivanivanov"
+                tags:
+                  type: "array"
+                  items:
+                    type: "string"
+                  example: ["developer", "mentor"]
+                description:
+                  type: "string"
+                  example: "Активный пользователь платформы"
+                job:
+                  type: "string"
+                  example: "Разработчик"
+                company:
+                  type: "string"
+                  example: "ООО Рога и Копыта"
+                is_banned:
+                  type: "boolean"
+                  example: false
+                is_verified:
+                  type: "boolean"
+                  example: true
+        500:
+          description: "Ошибка сервера"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Внутренняя ошибка сервера"
+  /admin/user/block/{user_id}/:
+    patch:
+      tags:
+        - admin
+      summary: "Блокировка пользователя"
+      description: "Эндпоинт для блокировки пользователя по UUID. Устанавливает флаг is_banned в true."
+      produces:
+        - "application/json"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "UUID пользователя для блокировки"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+      responses:
+        200:
+          description: "Пользователь успешно заблокирован"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "User 3ac11f6c-11e7-418c-9b28-c3086ab563b1 is blocked"
+        404:
+          description: "Пользователь не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "User not found"
+  /admin/user/unblock/{user_id}/:
+    patch:
+      tags:
+        - admin
+      summary: "Разблокировка пользователя"
+      description: "Эндпоинт для разблокировки пользователя по UUID. Устанавливает флаг is_banned в false."
+      produces:
+        - "application/json"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "UUID пользователя для разблокировки"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+      responses:
+        200:
+          description: "Пользователь успешно разблокирован"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "User 3ac11f6c-11e7-418c-9b28-c3086ab563b1 is unblocked"
+        404:
+          description: "Пользователь не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "User not found"
+  /admin/user/set_verified/{user_id}/{is_verified}/:
+    patch:
+      tags:
+        - admin
+      summary: "Изменение статуса верификации пользователя"
+      description: "Эндпоинт для изменения статуса верификации пользователя по UUID. Поле is_verified устанавливается в переданное значение."
+      produces:
+        - "application/json"
+      parameters:
+        - name: "user_id"
+          in: "path"
+          description: "UUID пользователя"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+        - name: "is_verified"
+          in: "path"
+          description: "Новый статус верификации (true или false)"
+          required: true
+          type: "boolean"
+          example: true
+      responses:
+        200:
+          description: "Статус верификации успешно изменён"
+          schema:
+            type: "object"
+            properties:
+              verificated:
+                type: "boolean"
+                example: true
+              message:
+                type: "string"
+                example: "User 3ac11f6c-11e7-418c-9b28-c3086ab563b1 verification status changed to true"
+        404:
+          description: "Пользователь не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "User not found"
+  /admin/all_requests/:
+    get:
+      tags:
+        - admin
+      summary: "Получение всех запросов"
+      description: "Эндпоинт для получения всех запросов (Request) в системе. Возвращается список объектов запроса."
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Список запросов успешно получен"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                  example: "c384e398-e37b-4fac-9cae-69f11767aeb8"
+                description:
+                  type: "string"
+                  example: "dlkadsakdks;dlkadsakdks;"
+                mentor:
+                  $ref: "#/definitions/User"
+        400:
+          description: "Ошибка при получении запросов"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Ошибка при получении запросов"
+  /question/:
+    post:
+      tags:
+        - question
+      summary: "Добавление вопроса"
+      description: "Эндпоинт для создания нового вопроса. Требуется авторизация (JWT)."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Объект вопроса для создания. Обязательные поля: title и description; tags — опционально."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              title:
+                type: "string"
+                example: "Как настроить CI/CD?"
+              description:
+                type: "string"
+                example: "Необходимо настроить процесс непрерывной интеграции и доставки для проекта на GitLab."
+              tags:
+                type: "array"
+                items:
+                  type: "string"
+                example: ["devops", "ci/cd", "gitlab"]
+            required:
+              - title
+              - description
+      responses:
+        201:
+          description: "Вопрос успешно добавлен"
+          schema:
+            type: "object"
+            properties:
+              question_id:
+                type: "string"
+                example: "6540db7b-8531-4889-a2b6-ba4020ea5d44"
+              message:
+                type: "string"
+                example: "Question added successfully."
+        400:
+          description: "Ошибка валидации данных"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "array"
+                items:
+                  type: "string"
+                example: ["Название вопроса обязательно"]
+    get:
+      tags:
+        - question
+      summary: "Получение вопросов пользователя"
+      description: >
+        Эндпоинт для получения списка вопросов, созданных аутентифицированным пользователем.
+        Каждый вопрос содержит следующие поля:
+          - id
+          - title
+          - description
+          - tags
+          - owner_id
+          - mentor_id
+          - status
+          - rating_payed
+          - active_requests
+          - owner (объект пользователя)
+          - mentor (объект пользователя, может быть null)
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Список вопросов пользователя"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                  example: "cf09a508-a20c-4fc6-9d46-973263a34bcd"
+                title:
+                  type: "string"
+                  example: "dasjdadsjkldsdasjdadsjkldsdasj"
+                description:
+                  type: "string"
+                  example: "dasjdadsjkldsdasjdadsjkldsdasjdadsjkldsdasjdadsjkldsdasjdadsjklds"
+                tags:
+                  type: "array"
+                  items:
+                    type: "string"
+                  example: ["marketing"]
+                owner_id:
+                  type: "string"
+                  example: "1b8d9d9c-ff62-411c-9826-5b5aa258bc8f"
+                mentor_id:
+                  type: "string"
+                  example: null
+                status:
+                  type: "integer"
+                  example: 0
+                rating_payed:
+                  type: "integer"
+                  example: 20
+                owner:
+                  type: "object"
+                  properties:
+                    id:
+                      type: "string"
+                      example: "1b8d9d9c-ff62-411c-9826-5b5aa258bc8f"
+                    name:
+                      type: "string"
+                      example: "mentor1"
+                    surname:
+                      type: "string"
+                      example: "mentor1"
+                    login:
+                      type: "string"
+                      example: "mentor1"
+                    password:
+                      type: "string"
+                      example: "mentor1"
+                    tags:
+                      type: "array"
+                      items:
+                        type: "string"
+                      example: ["mobile"]
+                    description:
+                      type: "string"
+                      example: "mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1mentor1"
+                    job:
+                      type: "string"
+                      example: "mentor1mentor1mentor1mentor1mentor1mentor1mentor1"
+                    company:
+                      type: "string"
+                      example: null
+                    is_banned:
+                      type: "boolean"
+                      example: false
+                    is_verified:
+                      type: "boolean"
+                      example: false
+                    rating:
+                      type: "integer"
+                      example: 0
+                mentor:
+                  type: "object"
+                  x-nullable: true
+                  properties:
+                    id:
+                      type: "string"
+                      example: "some-mentor-id"
+                    name:
+                      type: "string"
+                      example: "mentor_name"
+                    surname:
+                      type: "string"
+                      example: "mentor_surname"
+                    login:
+                      type: "string"
+                      example: "mentor_login"
+                    password:
+                      type: "string"
+                      example: "mentor_password"
+                    tags:
+                      type: "array"
+                      items:
+                        type: "string"
+                    description:
+                      type: "string"
+                      example: "mentor description"
+                    job:
+                      type: "string"
+                      example: "mentor job"
+                    company:
+                      type: "string"
+                      example: "mentor company"
+                    is_banned:
+                      type: "boolean"
+                      example: false
+                    is_verified:
+                      type: "boolean"
+                      example: true
+                    rating:
+                      type: "integer"
+                      example: 10
+        400:
+          description: "Ошибка авторизации или другой ошибки"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Ошибка при получении вопросов"
+  /question/{question_uuid}/:
+    get:
+      tags:
+        - question
+      summary: "Получение менторов по тегам вопроса"
+      description: >
+        Эндпоинт для получения списка менторов, соответствующих тегам вопроса.
+        По UUID вопроса производится поиск менторов, у которых поле tags содержит хотя бы один из тегов данного вопроса.
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "question_uuid"
+          in: "path"
+          description: "UUID вопроса для поиска менторов"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "6540db7b-8531-4889-a2b6-ba4020ea5d44"
+      responses:
+        200:
+          description: "Список найденных менторов"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                  example: "5fbc1651-49bc-438b-8eda-c36aa78c48f3"
+                name:
+                  type: "string"
+                  example: "Мария"
+                surname:
+                  type: "string"
+                  example: "Петрова"
+                login:
+                  type: "string"
+                  example: "maria_pet"
+                tags:
+                  type: "array"
+                  items:
+                    type: "string"
+                  example: ["python", "data science"]
+                description:
+                  type: "string"
+                  example: "Опытный разработчик и аналитик данных"
+                job:
+                  type: "string"
+                  example: "Data Scientist"
+                company:
+                  type: "string"
+                  example: "TechCorp"
+                is_banned:
+                  type: "boolean"
+                  example: false
+                is_verified:
+                  type: "boolean"
+                  example: true
+        404:
+          description: "Вопрос не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Question not found"
+    delete:
+      tags:
+        - question
+      summary: "Удаление вопроса"
+      description: "Эндпоинт для удаления вопроса по его UUID. Пользователь может удалить только свой вопрос."
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "question_uuid"
+          in: "path"
+          description: "UUID вопроса для удаления"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "6540db7b-8531-4889-a2b6-ba4020ea5d44"
+      responses:
+        200:
+          description: "Вопрос успешно удалён"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Вопрос успешно удалён"
+        204:
+          description: "Вопрос не найден"
+  /question/{question_id}/solved/:
+    post:
+      tags:
+        - question
+      summary: "Отметка вопроса как решённого"
+      description: >
+        Эндпоинт для отметки вопроса как решённого.
+        Требуется авторизация (JWT). Если для вопроса не назначен ментор, возвращается ошибка 400.
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "question_id"
+          in: "path"
+          description: "UUID вопроса, который необходимо пометить как решённый"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "6540db7b-8531-4889-a2b6-ba4020ea5d44"
+      responses:
+        200:
+          description: "Вопрос успешно помечен как решённый"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Question marked as solved"
+        400:
+          description: "Ошибка: вопрос не найден или запрос не принят"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "the request is not accepted already"
+  /request/{question_id}/many/:
+    post:
+      tags:
+        - request
+      summary: "Создание запросов ко множеству менторов"
+      description: >
+        Эндпоинт для создания запросов для одного вопроса ко множеству менторов.
+        Пользователь должен быть владельцем вопроса (question_id).
+        Тело запроса должно содержать объект с обязательными полями:
+          - mentors_id: array[string] – список UUID менторов,
+          - description: string – описание запроса.
+        Требуется авторизация (JWT).
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "question_id"
+          in: "path"
+          description: "UUID вопроса, которым владеет пользователь"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+        - in: "body"
+          name: "body"
+          description: >
+            Объект запроса для создания нескольких запросов.
+            Обязательные поля:
+              - mentors_id: array[string]
+              - description: string
+          required: true
+          schema:
+            type: "object"
+            properties:
+              mentors_id:
+                type: "array"
+                items:
+                  type: "string"
+                  format: "uuid"
+                example: ["5fbc1651-49bc-438b-8eda-c36aa78c48f3"]
+              description:
+                type: "string"
+                example: "Нужна консультация по настройке сервера"
+            required:
+              - mentors_id
+              - description
+      responses:
+        201:
+          description: "Запросы успешно созданы"
+        400:
+          description: "Ошибка: вопрос не найден или один из менторов не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Вопрос или один из менторов не найден"
+  /request/{question_id}/{mentor_id}/:
+    post:
+      tags:
+        - request
+      summary: "Создание запроса к ментору"
+      description: >
+        Эндпоинт для создания нового запроса на получение консультации от ментора по конкретному вопросу.
+        Пользователь должен быть владельцем вопроса (question_id), а mentor_id — это UUID ментора.
+        Требуется авторизация (JWT).
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "question_id"
+          in: "path"
+          description: "UUID вопроса, которым владеет пользователь"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+        - name: "mentor_id"
+          in: "path"
+          description: "UUID ментора, к которому отправляется запрос"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "5fbc1651-49bc-438b-8eda-c36aa78c48f3"
+        - in: "body"
+          name: "body"
+          description: "Объект запроса. Опциональное поле description для дополнительного описания запроса."
+          required: false
+          schema:
+            type: "object"
+            properties:
+              description:
+                type: "string"
+                example: "Нужна консультация по оптимизации базы данных"
+      responses:
+        201:
+          description: "Запрос успешно создан"
+        400:
+          description: "Ошибка: вопрос не найден или ментор не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Неверный UUID вопроса или ментора"
+  /request/incoming/:
+    get:
+      tags:
+        - request
+      summary: "Получение входящих заявок"
+      description: >
+        Эндпоинт для получения всех входящих заявок для ментора.
+        Возвращаются заявки, у которых mentor_id совпадает с user_id, извлечённым из JWT.
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Список входящих заявок"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Request"
+          examples:
+            application/json: |
+              [
+                {
+                  "id": "a423b2cf-4700-41b7-8ed4-e7b85d6a8bf6",
+                  "description": "Нужна консультация по настройке сервера",
+                  "status": 0,
+                  "mentor": {
+                    "id": "59487d73-290f-449b-9e7a-90ddd13a59e5",
+                    "name": "MentorName",
+                    "surname": "MentorSurname",
+                    "login": "testmentor",
+                    "password": "MentorPass123!",
+                    "tags": ["mentor", "python"],
+                    "description": "Тестовый ментор",
+                    "job": "Senior Developer",
+                    "company": "MentorCorp",
+                    "is_banned": true,
+                    "is_verified": false,
+                    "rating": 0
+                  },
+                  "owner": {
+                    "id": "0ea487b3-49c3-4662-9df2-26d86f45ad8e",
+                    "name": "UpdatedName",
+                    "surname": "TestSurname",
+                    "login": "testuser123",
+                    "password": "TestPass123!",
+                    "tags": ["tester", "python"],
+                    "description": "Тестовый пользователь",
+                    "job": "Senior QA Engineer",
+                    "company": "TestCorp",
+                    "is_banned": false,
+                    "is_verified": true,
+                    "rating": 0
+                  },
+                  "question": {
+                    "id": "3e6ce3b8-2125-4584-adcc-73a51f2c4146",
+                    "title": "Как настроить CI/CD?",
+                    "description": "Необходимо настроить процесс непрерывной интеграции и доставки для проекта на GitLab.",
+                    "tags": ["devops", "ci/cd", "gitlab"],
+                    "mentor_id": null,
+                    "owner_id": "0ea487b3-49c3-4662-9df2-26d86f45ad8e",
+                    "rating_payed": 20,
+                    "status": 0
+                  }
+                }
+              ]
+        400:
+          description: "Ошибка валидации или другая ошибка"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Ошибка при получении входящих заявок"
+  /request/{request_id}/accept/:
+    patch:
+      tags:
+        - request
+      summary: "Принять запрос"
+      description: >
+        Эндпоинт для принятия запроса.
+        Если текущий пользователь является ментором данного запроса, его статус устанавливается в 1 (accept).
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "request_id"
+          in: "path"
+          description: "UUID запроса, который необходимо принять"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3e9325c6-041b-45fb-bc55-9698c01292e4"
+      responses:
+        200:
+          description: "Запрос успешно принят"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Request accepted successfully."
+        400:
+          description: "Ошибка: запрос не найден или пользователь не является ментором данного запроса"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Запрос не найден или доступ запрещён"
+  /request/{request_id}/decline/:
+    patch:
+      tags:
+        - request
+      summary: "Отклонить запрос"
+      description: >
+        Эндпоинт для отклонения запроса.
+        Если текущий пользователь является ментором данного запроса, его статус устанавливается в -1 (decline).
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "request_id"
+          in: "path"
+          description: "UUID запроса, который необходимо отклонить"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3e9325c6-041b-45fb-bc55-9698c01292e4"
+      responses:
+        200:
+          description: "Запрос успешно отклонён"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Request declined successfully."
+        400:
+          description: "Ошибка: запрос не найден или пользователь не является ментором данного запроса"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Запрос не найден или доступ запрещён"
+  /request/accepted/:
+    get:
+      tags:
+        - request
+      summary: "Получение принятых заявок"
+      description: >
+        Эндпоинт для получения всех заявок, принятых текущим пользователем (ментором).
+        Возвращаются заявки, у которых mentor_id совпадает с user_id из JWT, и статус равен 1.
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Список принятых заявок"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Request"
+        400:
+          description: "Ошибка запроса"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Ошибка при получении принятых заявок"
+
+  /ai/gen_title/:
+    post:
+      tags:
+        - ai
+      summary: "Генерация заголовка"
+      description: "Эндпоинт для генерации заголовка на основе описания. Требуется авторизация (JWT)."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Объект с описанием для генерации заголовка. Обязательное поле: description."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              description:
+                type: "string"
+                example: "Описание задачи для генерации заголовка"
+            required:
+              - description
+      responses:
+        200:
+          description: "Заголовок успешно сгенерирован"
+          schema:
+            type: "object"
+            properties:
+              title:
+                type: "string"
+                example: "Сгенерированный заголовок"
+        400:
+          description: "Ошибка валидации данных"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "you must provide description to make a title"
+        502:
+          description: "Ошибка сервиса генерации"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "ProxyAPI or OpenAPI services probably under maintenance or my credit balance is insufficient. Please, contact me and i'll fix it as fast as possible."
+
+  /ai/enchant_description/:
+    post:
+      tags:
+        - ai
+      summary: "Преобразование описания"
+      description: "Эндпоинт для улучшения/обогащения описания. Требуется авторизация (JWT)."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Объект с описанием для улучшения. Обязательное поле: description."
+          required: true
+          schema:
+            type: "object"
+            properties:
+              description:
+                type: "string"
+                example: "Описание для улучшения"
+            required:
+              - description
+      responses:
+        200:
+          description: "Описание успешно преобразовано"
+          schema:
+            type: "object"
+            properties:
+              description:
+                type: "string"
+                example: "Улучшенное описание"
+        400:
+          description: "Ошибка валидации данных"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "you must provide description to do enchant"
+        502:
+          description: "Ошибка сервиса преобразования"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "ProxyAPI or OpenAPI services probably under maintenance or my credit balance is insufficient. Please, contact me and i'll fix it as fast as possible."
+
+
+  /tags/:
+    get:
+      tags:
+        - tags
+      summary: "Получение списка тегов"
+      description: "Эндпоинт для получения списка доступных тегов."
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Список тегов"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+          examples:
+            application/json: |
+              ["python", "javascript", "devops", "ci/cd"]
+  /tags/mentors/:
+    post:
+      tags:
+        - tags
+      summary: "Получение менторов по тегам"
+      description: >
+        Эндпоинт возвращает список менторов, у которых в поле tags присутствует хотя бы один из указанных тегов.
+        В теле запроса ожидается массив тегов.
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Массив тегов для поиска менторов"
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "string"
+          example: ["python", "machine learning"]
+      responses:
+        200:
+          description: "Список найденных менторов"
+          headers:
+            X-Total-Count:
+              type: "integer"
+              description: "Общее количество найденных менторов"
+              example: 2
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                  example: "7d2f4a6b-5d8c-4f1a-8e2d-9a3b2c4e7f8d"
+                name:
+                  type: "string"
+                  example: "Алексей"
+                surname:
+                  type: "string"
+                  example: "Смирнов"
+                login:
+                  type: "string"
+                  example: "alex_smirnov"
+                tags:
+                  type: "array"
+                  items:
+                    type: "string"
+                  example: ["python", "flask", "backend"]
+                description:
+                  type: "string"
+                  example: "Опытный разработчик Python"
+                job:
+                  type: "string"
+                  example: "Senior Developer"
+                company:
+                  type: "string"
+                  example: "Tech Solutions"
+                rating:
+                  type: "integer"
+                  example: 42
+                is_banned:
+                  type: "boolean"
+                  example: false
+        400:
+          description: "Неверный формат запроса или ошибка валидации"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Некорректный формат данных"
+  /mentors/{question_uuid}/:
+    get:
+      tags:
+        - mentors
+      summary: "Получение менторов по тегам созданного вопроса"
+      description: >
+        Эндпоинт для получения списка менторов, соответствующих тегам вопроса.
+        На основе UUID вопроса выполняется поиск менторов, у которых поле tags содержит один из тегов вопроса.
+        Требуется авторизация (JWT).
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "question_uuid"
+          in: "path"
+          description: "UUID вопроса для поиска менторов"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "6540db7b-8531-4889-a2b6-ba4020ea5d44"
+      responses:
+        200:
+          description: "Список найденных менторов"
+          schema:
+            type: "array"
+            items:
+              type: "object"
+              properties:
+                id:
+                  type: "string"
+                  example: "5fbc1651-49bc-438b-8eda-c36aa78c48f3"
+                name:
+                  type: "string"
+                  example: "Мария"
+                surname:
+                  type: "string"
+                  example: "Петрова"
+                login:
+                  type: "string"
+                  example: "maria_pet"
+                tags:
+                  type: "array"
+                  items:
+                    type: "string"
+                  example: ["python", "data science"]
+                description:
+                  type: "string"
+                  example: "Опытный разработчик и аналитик данных"
+                job:
+                  type: "string"
+                  example: "Data Scientist"
+                company:
+                  type: "string"
+                  example: "TechCorp"
+                is_banned:
+                  type: "boolean"
+                  example: false
+                is_verified:
+                  type: "boolean"
+                  example: true
+        404:
+          description: "Вопрос не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Question not found"
+  /test/:
+    get:
+      tags:
+        - test
+      summary: "Тестовый эндпоинт"
+      description: "Эндпоинт для тестирования работы API."
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Тестовый ответ"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Тестовый ответ API"
+  /request/{request_id}/solved/:
+    post:
+      tags:
+        - request
+      summary: "Отметка запроса как решённого"
+      description: >
+        Эндпоинт для отметки запроса как решённого.
+        Требуется авторизация (JWT).
+        Если запрос не принят, возвращается ошибка 400.
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "request_id"
+          in: "path"
+          description: "UUID запроса, который необходимо пометить как решённый"
+          required: true
+          type: "string"
+          format: "uuid"
+          example: "3e9325c6-041b-45fb-bc55-9698c01292e4"
+      responses:
+        200:
+          description: "Запрос успешно помечен как решённый"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+                example: "Request marked as solved"
+        400:
+          description: "Ошибка: запрос не принят или не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "The request is not accepted yet"
+  /user/info/me/:
+    get:
+      tags:
+        - user
+      summary: "Получение информации о текущем пользователе"
+      description: "Эндпоинт для получения информации о текущем пользователе на основе JWT-токена."
+      produces:
+        - "application/json"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Информация о пользователе успешно получена"
+          schema:
+            type: "object"
+            properties:
+              id:
+                type: "string"
+                example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+              name:
+                type: "string"
+                example: "Иван"
+              surname:
+                type: "string"
+                example: "Иванов"
+              login:
+                type: "string"
+                example: "ivanivanov"
+              tags:
+                type: "array"
+                items:
+                  type: "string"
+                example: ["developer", "mentor"]
+              description:
+                type: "string"
+                example: "Активный пользователь платформы"
+              job:
+                type: "string"
+                example: "Разработчик"
+              company:
+                type: "string"
+                example: "ООО Рога и Копыта"
+              is_banned:
+                type: "boolean"
+                example: false
+              is_verified:
+                type: "boolean"
+                example: true
+        400:
+          description: "Неверный токен авторизации или ошибка"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "something wrong with your authorization token. Please, renew it"
+        404:
+          description: "Пользователь не найден"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "User not found"
+        500:
+          description: "Ошибка сервера"
+          schema:
+            type: "object"
+            properties:
+              error:
+                type: "string"
+                example: "Внутренняя ошибка сервера"
+definitions:
+  TokenResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        example: "ok"
+      token:
+        type: string
+        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  StatusResponse:
+    type: object
+    properties:
+      status:
+        type: string
+        example: "ok"
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "3ac11f6c-11e7-418c-9b28-c3086ab563b1"
+      name:
+        type: string
+        example: "Иван"
+      surname:
+        type: string
+        example: "Иванов"
+      login:
+        type: string
+        example: "ivanivanov"
+      password:
+        type: string
+        example: "Passw0rd!"
+      tags:
+        type: array
+        items:
+          type: string
+        example: ["developer", "mentor"]
+      description:
+        type: string
+        example: "Активный пользователь платформы"
+      job:
+        type: string
+        example: "Разработчик"
+      company:
+        type: string
+        example: "ООО Рога и Копыта"
+      is_banned:
+        type: boolean
+        example: false
+      is_verified:
+        type: boolean
+        example: true
+      rating:
+        type: integer
+        example: 0
+  Question:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "3e6ce3b8-2125-4584-adcc-73a51f2c4146"
+      title:
+        type: string
+        example: "Как настроить CI/CD?"
+      description:
+        type: string
+        example: "Необходимо настроить процесс непрерывной интеграции и доставки для проекта на GitLab."
+      tags:
+        type: array
+        items:
+          type: string
+        example: ["devops", "ci/cd", "gitlab"]
+      mentor_id:
+        type: string
+        example: null
+      owner_id:
+        type: string
+        example: "0ea487b3-49c3-4662-9df2-26d86f45ad8e"
+      rating_payed:
+        type: integer
+        example: 20
+      active_requests:
+        type: integer
+        example: 2
+      status:
+        type: integer
+        example: 0
+  Request:
+    type: object
+    properties:
+      id:
+        type: string
+        example: "a423b2cf-4700-41b7-8ed4-e7b85d6a8bf6"
+      description:
+        type: string
+        example: "Нужна консультация по настройке сервера"
+      status:
+        type: integer
+        example: 0
+      mentor:
+        $ref: "#/definitions/User"
+      owner:
+        $ref: "#/definitions/User"
+      question:
+        $ref: "#/definitions/Question"
